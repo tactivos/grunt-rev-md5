@@ -35,7 +35,9 @@ There are two types of path resolution that this task do: relative and absolute.
 - __Relative__. Imagine that you're referencing the file `image1.png` from `styles.css` which is
 stored on `/static/home/css` in this way:
 
+```css
     background: url('../image1.png')
+```
 
 In this case our grunt task will go to css path and combine its path (the css) with the relative
 path resulting in `/static/home/image1.png'. This looks as the most comprehensive behavior in
@@ -44,7 +46,9 @@ this case.
 - __Absolute__. Imagine that you're referencing the file `image2.png` from `styles.css` and you've
 set the `relativePath` to be `./public`
 
+```css
     background: url('/static/images/image2.png')
+```
 
 In this case our grunt task will go to the `relativePath` and combine it with the resource path
 resulting in `./public/static/images/image2.png'.
