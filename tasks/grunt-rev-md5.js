@@ -8,6 +8,7 @@ module.exports = function (grunt) {
 
 	var fs = require('fs');
 	var url = require('url');
+	var util = require('util');
 	var path = require('path');
 	var crypto = require('crypto');
 
@@ -38,14 +39,14 @@ module.exports = function (grunt) {
 			content = content.toString(); // sometimes css is interpreted as object
 
 			if(!supportedTypes[type]) { //next
-				console.warn("unrecognized extension: <%= type %> - <%= filename>");
+				console.warn(util.format("unrecognized extension: %s - %s", type, filename));
 				return;
 			}
 
 			content = grunt.helper('revmd5:' + supportedTypes[type], content, filename, relativeTo);
 
 			// write the contents to destination
-			var filePath = dest ? path.join(dest, path.basename(filename)) : file;
+			var filePath = dest ? path.join(dest, path.basename(filename)) : filename;
 			grunt.file.write(filePath, content);
 		});
 	});
