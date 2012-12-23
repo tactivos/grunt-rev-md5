@@ -86,7 +86,7 @@ module.exports = function (grunt) {
 		// if path is relative make it relative to where
 		// it's coming from.
 		if(!grunt.file.isPathAbsolute(resourceUrl.pathname)) {
-			basePath = path.resolve(filename);
+			basePath = path.dirname(filename);
 			src = path.join(basePath, resourceUrl.pathname);
 		}
 
