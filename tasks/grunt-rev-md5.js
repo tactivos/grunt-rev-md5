@@ -38,8 +38,8 @@ module.exports = function (grunt) {
 			content = content.toString(); // sometimes css is interpreted as object
 
 			if(!supportedTypes[type]) { //next
-				writeln("unrecognized extension: <%= type %> - <%= filename %>", {type: type, filename: filename});
-				return;
+				var message = grunt.template.process("unrecognized extension: <%= type %> - <%= filename %>", {type: type, filename: filename});
+				return this.data.safe ? grunt.fail.warn(message) : grunt.log.writeln(message);
 			}
 
 			content = grunt.helper('revmd5:' + supportedTypes[type], content, filename, relativeTo);
