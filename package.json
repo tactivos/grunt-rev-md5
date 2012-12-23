@@ -1,12 +1,13 @@
 {
   "name": "grunt-rev-md5",
   "description": "Automates resource versioning based on the MD5 hash of referenced files (works on CSS, HTML, SOYs)",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/tactivos/grunt-rev-md5",
   "author": {
     "name": "Johnny Halife",
     "url": "http://github.com/johnnyhalife/"
   },
+  "contributors": ["Juan Pablo Garcia <jpgarcia@gmail.com>"],
   "repository": {
     "type": "git",
     "url": "git://github.com/tactivos/grunt-rev-md5.git"

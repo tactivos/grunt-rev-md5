@@ -39,7 +39,7 @@ module.exports = function (grunt) {
 			content = content.toString(); // sometimes css is interpreted as object
 
 			if(!supportedTypes[type]) { //next
-				console.warn(util.format("unrecognized extension: %s - %s", type, filename));
+				writeln("unrecognized extension: %s - %s", {type: type, filename: filename});
 				return;
 			}
 
