@@ -8,7 +8,6 @@ module.exports = function (grunt) {
 
 	var fs = require('fs');
 	var url = require('url');
-	var util = require('util');
 	var path = require('path');
 	var crypto = require('crypto');
 
@@ -40,8 +39,8 @@ module.exports = function (grunt) {
 			content = content.toString(); // sometimes css is interpreted as object
 
 			if(!supportedTypes[type]) { //next
-				console.warn(util.format("unrecognized extension: %s - %s", type, filename));
-				return;
+				var message = grunt.template.process("unrecognized extension: <%= type %> - <%= filename %>", {type: type, filename: filename});
+				return this.data.safe ? grunt.fail.warn(message) : grunt.log.writeln(message);
 			}
 
 			content = grunt.helper('revmd5:' + supportedTypes[type], content, filename, relativeTo);
