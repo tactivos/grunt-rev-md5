@@ -15,7 +15,8 @@ module.exports = function (grunt) {
 	var supportedTypes = {
 		html: 'html',
 		css: 'css',
-		soy: 'html'
+		soy: 'html',
+		ejs: 'html'
 	};
 
 	var reghtml = new RegExp(/(src|href)=['"]([^'"]+)['"]/ig);
