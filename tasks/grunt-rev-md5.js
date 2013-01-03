@@ -14,11 +14,11 @@ module.exports = function (grunt) {
 	var supportedTypes = {
 		html: 'html',
 		css: 'css',
-		soy: 'html'
+		soy: 'html',
+		ejs: 'html'
 	};
 
-	var reghtml = new RegExp(/(src|href)=['"]([^'"]+)['"]/ig);
-
+	var reghtml = new RegExp(/<(?:img|link|source|script).*\b(?:href|src)\b.*['"]([\/]\w[^'"]+)['"].*\/?>/ig);
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
 
 	var writeln = grunt.log.writeln;
@@ -51,11 +51,8 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerHelper('revmd5:html', function (content, filename, relativeTo) {
-		return content.replace(reghtml, function (attribute, type, resource) {
-			return grunt.template.process("<%= type %>=\"<%= url %>\"", {
-				type: type,
-				url: (stampUrl(resource, filename, relativeTo) || resource)
-			});
+		return content.replace(reghtml, function (match, resource) {
+			return match.replace(resource, stampUrl(resource, filename, relativeTo));
 		});
 	});
 
