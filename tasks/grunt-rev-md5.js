@@ -90,6 +90,9 @@ module.exports = function (grunt) {
 			return writeln("skipping " + resource + " file not found!");
 		}
 
+		if(fs.lstatSync(src).isDirectory())
+			return;
+
 		var hash = md5(grunt.file.read(src));
 		return grunt.template.process("<%= pathname %>?v=<%= hash %>", {
 			hash: hash,
