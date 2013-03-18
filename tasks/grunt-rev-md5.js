@@ -24,6 +24,9 @@ module.exports = function (grunt) {
 	var writeln = grunt.log.writeln;
 
 	grunt.registerMultiTask('revmd5', "Appends a cache busting ?v={MD5} hash to the file reference", function () {
+		var options = this.options({
+			encoding: 'utf8'
+		});
 		var relativeTo = path.resolve(this.data.relativePath);
 		var files = grunt.file.expandFiles(this.file.src);
 		var dest = this.file.dest;
@@ -42,7 +45,7 @@ module.exports = function (grunt) {
 				return this.data.safe ? grunt.fail.warn(message) : grunt.log.writeln(message);
 			}
 
-			content = grunt.helper('revmd5:' + supportedTypes[type], content, filename, relativeTo);
+			content = grunt.helper('revmd5:' + supportedTypes[type], content, filename, relativeTo, options);
 
 			// write the contents to destination
 			var filePath = dest ? path.join(dest, path.basename(filename)) : filename;
@@ -50,16 +53,16 @@ module.exports = function (grunt) {
 		});
 	});
 
-	grunt.registerHelper('revmd5:html', function (content, filename, relativeTo) {
+	grunt.registerHelper('revmd5:html', function (content, filename, relativeTo, options) {
 		return content.replace(reghtml, function (match, resource) {
-			return match.replace(resource, stampUrl(resource, filename, relativeTo));
+			return match.replace(resource, stampUrl(resource, filename, relativeTo, options));
 		});
 	});
 
-	grunt.registerHelper('revmd5:css', function (content, filename, relativeTo) {
+	grunt.registerHelper('revmd5:css', function (content, filename, relativeTo, options) {
 		return content.replace(regcss, function (attr, resource) {
 			resource = resource.replace(/^['"]/, '').replace(/['"]$/, '');
-			var url = stampUrl(resource, filename, relativeTo);
+			var url = stampUrl(resource, filename, relativeTo, options);
 
 			if(!url) return attr;
 
@@ -69,7 +72,7 @@ module.exports = function (grunt) {
 		});
 	});
 
-	function stampUrl(resource, filename, relativeTo) {
+	function stampUrl(resource, filename, relativeTo, options) {
 		// skip those absolute urls
 		if(resource.match(/^https?:\/\//i) || resource.match(/^\/\//) || resource.match(/^data:/i)) {
 			grunt.verbose.writeln("skipping " + resource + " it's an absolute (or data) URL");
@@ -93,14 +96,14 @@ module.exports = function (grunt) {
 		if(fs.lstatSync(src).isDirectory())
 			return;
 
-		var hash = md5(grunt.file.read(src));
+		var hash = md5(grunt.file.read(src), options.encoding);
 		return grunt.template.process("<%= pathname %>?v=<%= hash %>", {
 			hash: hash,
 			pathname: resourceUrl.pathname
 		});
 	}
 
-	function md5(content) {
-		return crypto.createHash('md5').update(content).digest('hex');
+	function md5(content, encoding) {
+		return crypto.createHash('md5').update(content, encoding).digest('hex');
 	}
 };
