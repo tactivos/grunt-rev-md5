@@ -79,7 +79,7 @@ module.exports = function (grunt) {
 			return;
 		}
 
-		var resourceUrl = url.parse(resource);
+		var resourceUrl = url.parse(resource.split('#')[0]);
 		var src = path.join(relativeTo, resourceUrl.pathname);
 
 		// if path is relative make it relative to where
