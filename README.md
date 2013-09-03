@@ -58,5 +58,6 @@ the same aproach as the *NIX file-system.
 
 ## Release History
 * 0.1.0 Initial Release
+* 0.2.0 Migrated to Grunt ~0.4.0
 
 [grunt]: https://github.com/cowboy/grunt
