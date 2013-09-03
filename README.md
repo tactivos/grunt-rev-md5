@@ -13,22 +13,22 @@ grunt.loadNpmTasks('grunt-rev-md5');
 Then specify your config:
 
 ```javascript
-    grunt.initConfig({
-        revmd5: {
-            options: {
-                /** @required - base file system path for your resources (which MD5 will be calculated) */
-                relativePath: './',
-                /** @optional - when provided if a resource isn't found will fail with a warning */
-                safe: true
-            },
-            dist: {
-                /** @required  - string (or array of) including grunt glob variables */
-                src: ['./static/*.html', './static/*.css', './static/*.soy'],
-                /** @optional  - if provided a copy will be stored without modifying original file */
-                dest: './dist/static/'
-            }
+grunt.initConfig({
+    revmd5: {
+        options: {
+            /** @required - base file system path for your resources (which MD5 will be calculated) */
+            relativePath: './',
+            /** @optional - when provided if a resource isn't found will fail with a warning */
+            safe: true
+        },
+        dist: {
+            /** @required  - string (or array of) including grunt glob variables */
+            src: ['./static/*.html', './static/*.css', './static/*.soy'],
+            /** @optional  - if provided a copy will be stored without modifying original file */
+            dest: './dist/static/'
         }
-    });
+    }
+});
 ```
 ### Notes about path location
 
