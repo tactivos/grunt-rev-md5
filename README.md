@@ -13,20 +13,22 @@ grunt.loadNpmTasks('grunt-rev-md5');
 Then specify your config:
 
 ```javascript
-    grunt.initConfig({
-        revmd5: {
-            dist: {
-                /** @required  - string (or array of) including grunt glob variables */
-                src: ['./static/*.html', './static/*.css', './static/*.soy'],
-                /** @optional  - if provided a copy will be stored without modifying original file */
-                dest: './dist/static/',
-                /** @required - base file system path for your resources (which MD5 will be calculated) */
-                relativePath: './',
-                /** @optional - when provided if a resource isn't found will fail with a warning */
-                safe: true
-            }
+grunt.initConfig({
+    revmd5: {
+        options: {
+            /** @required - base file system path for your resources (which MD5 will be calculated) */
+            relativePath: './',
+            /** @optional - when provided if a resource isn't found will fail with a warning */
+            safe: true
+        },
+        dist: {
+            /** @required  - string (or array of) including grunt glob variables */
+            src: ['./static/*.html', './static/*.css', './static/*.soy'],
+            /** @optional  - if provided a copy will be stored without modifying original file */
+            dest: './dist/static/'
         }
-    });
+    }
+});
 ```
 ### Notes about path location
 
@@ -58,5 +60,6 @@ the same aproach as the *NIX file-system.
 
 ## Release History
 * 0.1.0 Initial Release
+* 0.2.0 Migrated to Grunt ~0.4.0
 
 [grunt]: https://github.com/cowboy/grunt
