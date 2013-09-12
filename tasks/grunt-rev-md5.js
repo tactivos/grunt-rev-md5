@@ -81,7 +81,9 @@ module.exports = function (grunt) {
 				if(!url) return attr;
 
 				return grunt.template.process('url(<%= url %>)', {
-					url: url
+					data: {
+						url: url
+					}
 				});
 			});
 		}
