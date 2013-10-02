@@ -22,15 +22,17 @@ module.exports = function (grunt) {
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
 
 	var writeln = grunt.log.writeln;
+	var ignorePath = null;
 
 	grunt.registerMultiTask('revmd5', "Appends a cache busting ?v={MD5} hash to the file reference", function () {
+		ignorePath = this.data.ignorePath;
 		var relativeTo = path.resolve(this.data.relativePath);
 		var files = grunt.file.expandFiles(this.file.src);
 		var dest = this.file.dest;
 
 		// if we decide we want safe mode (off by default)
 		// it will throw warnings (that can be ignored with --force)
-		if (this.data.safe) writeln = grunt.fail.warn;
+		if (this.data.safe) writeln = console.warn;
 
 		files.map(grunt.file.read).forEach(function (content, i) {
 			var filename = files[i];
@@ -39,7 +41,7 @@ module.exports = function (grunt) {
 
 			if(!supportedTypes[type]) { //next
 				var message = grunt.template.process("unrecognized extension: <%= type %> - <%= filename %>", {type: type, filename: filename});
-				return this.data.safe ? grunt.fail.warn(message) : grunt.log.writeln(message);
+				return this.data.safe ? grunt.fail.warn(message) : writeln(message);
 			}
 
 			content = grunt.helper('revmd5:' + supportedTypes[type], content, filename, relativeTo);
@@ -86,8 +88,13 @@ module.exports = function (grunt) {
 			src = path.join(basePath, resourceUrl.pathname);
 		}
 
+		if(ignorePath && resource.match(ignorePath)) {
+			return resource;
+		}
+
 		if(!fs.existsSync(src)) {
-			return writeln("skipping " + resource + " file not found!");
+			grunt.fail.warn("skipping " + resource + " file not found!");
+			return resource;
 		}
 
 		if(fs.lstatSync(src).isDirectory())
