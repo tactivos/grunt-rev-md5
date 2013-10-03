@@ -22,6 +22,7 @@ module.exports = function (grunt) {
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
 
 	var writeln = grunt.log.writeln;
+	var ignorePath = null;
 
 	grunt.registerMultiTask('revmd5', 'Appends a cache busting ?v={MD5} hash to the file reference', function () {
 		var self = this;
@@ -31,8 +32,10 @@ module.exports = function (grunt) {
 			safe: false
 		});
 
-		var relativeTo = path.resolve(options.relativePath);
 		var dest = this.files[0].dest;
+		var relativeTo = path.resolve(options.relativePath);
+		ignorePath = this.options().ignorePath;
+
 		// if we decide we want safe mode (off by default)
 		// it will throw warnings (that can be ignored with --force)
 		if (options.safe) { writeln = grunt.log.warn; }
@@ -93,6 +96,10 @@ module.exports = function (grunt) {
 			if(resource.match(/^https?:\/\//i) || resource.match(/^\/\//) || resource.match(/^data:/i)) {
 				grunt.verbose.writeln('skipping \'' + resource + '\' it\'s an absolute (or data) URL');
 				return;
+			}
+
+			if(ignorePath && resource.match(ignorePath)) {
+				return resource;
 			}
 
 			var resourceUrl = url.parse(resource.split('#')[0]);
