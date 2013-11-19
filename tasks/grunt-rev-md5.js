@@ -15,10 +15,12 @@ module.exports = function (grunt) {
 		html: 'html',
 		css: 'css',
 		soy: 'html',
-		ejs: 'html'
+		ejs: 'html',
+		cshtml: 'html',
+		spark: 'html'
 	};
 
-	var reghtml = new RegExp(/<(?:img|link|source|script).*\b(?:href|src)\b.*['"]([\/]\w[^'"]+)['"].*\/?>/ig);
+	var reghtml = new RegExp(/<(?:img|link|source|script).*\b(?:href|src)\b=['"]([^ ]+)['"].*\/?>/ig);
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
 
 	var writeln = grunt.log.writeln;
@@ -108,12 +110,18 @@ module.exports = function (grunt) {
 			// if path is relative make it relative to where
 			// it's coming from.
 			if(!grunt.file.isPathAbsolute(resourceUrl.pathname)) {
-				basePath = path.dirname(filename);
+				var basePath = path.dirname(filename);
 				src = path.join(basePath, resourceUrl.pathname);
 			}
 
-			if(!fs.existsSync(src)) {
-				return writeln('skipping \'' + resource + '\' file not found!');
+			if (!fs.existsSync(src)) {
+				var pathWithVersion = {
+					data: {
+						pathname: resource,
+						version: Math.floor((Math.random() * 1000000) + 1)
+					}
+				};
+				return processFileName(pathWithVersion);
 			}
 
 			if(fs.lstatSync(src).isDirectory()) { return; }
@@ -122,10 +130,24 @@ module.exports = function (grunt) {
 			var obj = {
 				data: {
 					pathname: resourceUrl.pathname,
-					hash: hash
+					version: hash
 				}
 			};
-			return grunt.template.process("<%= pathname %>?v=<%= hash %>", obj);
+			return processFileName(obj);
+		}
+		
+		function processFileName(pathWithVersion) {
+			if (pathWithVersion.data.pathname.indexOf('?') < 0) {
+				pathWithVersion.data.delimitor = "?";
+			} else {
+				pathWithVersion.data.delimitor = "&";
+			}
+			
+			if (pathWithVersion.data.pathname.indexOf('?v=') > 0 || pathWithVersion.data.pathname.indexOf('&v=') > 0) {
+				return grunt.template.process("<%= pathname %>", pathWithVersion);
+			}
+			
+			return grunt.template.process("<%= pathname %><%= delimitor %>v=<%= version %>", pathWithVersion);
 		}
 
 		function md5(content, encoding) {
