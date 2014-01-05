@@ -11,7 +11,7 @@ module.exports = function (grunt) {
 	var path = require('path');
 	var crypto = require('crypto');
 
-	var supportedTypes = {
+	var supportedTypes = options.supportedTypes || {
 		html: 'html',
 		css: 'css',
 		soy: 'html',
