@@ -22,6 +22,11 @@ module.exports = function (grunt) {
 	grunt.registerMultiTask('revmd5', 'Appends a cache busting ?v={MD5} hash to the file reference', function () {
 		var self = this;
 		
+		var options = this.options({
+			encoding: 'utf8',
+			safe: false
+		});
+
 		var supportedTypes = options.supportedTypes || {
 			html: 'html',
 			css: 'css',
@@ -30,10 +35,6 @@ module.exports = function (grunt) {
 			cshtml: 'html',
 			spark: 'html'
 		};
-		var options = this.options({
-			encoding: 'utf8',
-			safe: false
-		});
 
 		var dest = this.files[0].dest;
 		var relativeTo = path.resolve(options.relativePath);
