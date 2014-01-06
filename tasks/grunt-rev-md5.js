@@ -11,14 +11,7 @@ module.exports = function (grunt) {
 	var path = require('path');
 	var crypto = require('crypto');
 
-	var supportedTypes = options.supportedTypes || {
-		html: 'html',
-		css: 'css',
-		soy: 'html',
-		ejs: 'html',
-		cshtml: 'html',
-		spark: 'html'
-	};
+	
 
 	var reghtml = new RegExp(/<(?:img|link|source|script).*\b(?:href|src)\b=['"]([^ ]+)['"].*\/?>/ig);
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
@@ -28,11 +21,20 @@ module.exports = function (grunt) {
 
 	grunt.registerMultiTask('revmd5', 'Appends a cache busting ?v={MD5} hash to the file reference', function () {
 		var self = this;
-
+		
 		var options = this.options({
 			encoding: 'utf8',
 			safe: false
 		});
+
+		var supportedTypes = options.supportedTypes || {
+			html: 'html',
+			css: 'css',
+			soy: 'html',
+			ejs: 'html',
+			cshtml: 'html',
+			spark: 'html'
+		};
 
 		var dest = this.files[0].dest;
 		var relativeTo = path.resolve(options.relativePath);
