@@ -19,7 +19,11 @@ grunt.initConfig({
             /** @required - base file system path for your resources (which MD5 will be calculated) */
             relativePath: './',
             /** @optional - when provided if a resource isn't found will fail with a warning */
-            safe: true
+            safe: true,
+            /** @optional - let you define extentions and the file types (html or css). If not provided, a default set of types will be used.
+            supportedTypes : {
+              'jsp' : 'html'
+            }
         },
         dist: {
             /** @required  - string (or array of) including grunt glob variables */
