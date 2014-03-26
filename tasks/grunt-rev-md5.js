@@ -99,7 +99,7 @@ module.exports = function (grunt) {
 			// skip those absolute urls
 			if(resource.match(/^https?:\/\//i) || resource.match(/^\/\//) || resource.match(/^data:/i)) {
 				grunt.verbose.writeln('skipping \'' + resource + '\' it\'s an absolute (or data) URL');
-				return;
+				return resource;
 			}
 
 			if(ignorePath && resource.match(ignorePath)) {
