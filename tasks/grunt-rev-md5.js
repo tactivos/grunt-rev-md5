@@ -112,7 +112,7 @@ module.exports = function (grunt) {
 
 			// if path is relative & user wants relative paths to be fixed
 			// make it relative to where it's coming from.
-			if(!grunt.file.isPathAbsolute(resourceUrl.pathname) && !dontFixRelative) {
+			if(!grunt.file.isPathAbsolute(resourceUrl.pathname) && !options.dontFixRelative) {
 				var basePath = path.dirname(filename);
 				src = path.join(basePath, resourceUrl.pathname);
 			}
