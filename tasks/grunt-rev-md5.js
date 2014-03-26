@@ -24,7 +24,8 @@ module.exports = function (grunt) {
 		
 		var options = this.options({
 			encoding: 'utf8',
-			safe: false
+			safe: false,
+			dontFixRelative: false
 		});
 
 		var supportedTypes = options.supportedTypes || {
@@ -109,9 +110,9 @@ module.exports = function (grunt) {
 			var resourceUrl = url.parse(resource.split('#')[0]);
 			var src = path.join(relativeTo, resourceUrl.pathname);
 
-			// if path is relative make it relative to where
-			// it's coming from.
-			if(!grunt.file.isPathAbsolute(resourceUrl.pathname)) {
+			// if path is relative & user wants relative paths to be fixed
+			// make it relative to where it's coming from.
+			if(!grunt.file.isPathAbsolute(resourceUrl.pathname) && !options.dontFixRelative) {
 				var basePath = path.dirname(filename);
 				src = path.join(basePath, resourceUrl.pathname);
 			}
