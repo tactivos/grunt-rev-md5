@@ -34,7 +34,8 @@ module.exports = function (grunt) {
 			soy: 'html',
 			ejs: 'html',
 			cshtml: 'html',
-			spark: 'html'
+			spark: 'html',
+			hbs: 'html'
 		};
 
 		var dest = this.files[0].dest;
