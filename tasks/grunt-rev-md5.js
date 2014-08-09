@@ -13,7 +13,7 @@ module.exports = function (grunt) {
 
 	
 
-	var reghtml = new RegExp(/<(?:img|link|source|script).*\b(?:href|src)\b=['"]([^ ]+)['"].*\/?>/ig);
+	var reghtml = new RegExp(/<(?:img|image|link|source|script).*\b(?:href|src)\b=['"]([^ ]+)['"].*\/?>/ig);
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
 
 	var writeln = grunt.log.writeln;
