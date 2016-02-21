@@ -7,7 +7,9 @@
     "name": "Johnny Halife",
     "url": "http://github.com/johnnyhalife/"
   },
-  "contributors": ["Juan Pablo Garcia <jpgarcia@gmail.com>"],
+  "contributors": [
+    "Juan Pablo Garcia <jpgarcia@gmail.com>"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/tactivos/grunt-rev-md5.git"
@@ -22,7 +24,10 @@
     "grunt": "~0.4.0"
   },
   "peerDependencies": {
-    "grunt": "~0.4.0"
+    "grunt": ">=0.4.0"
   },
-  "keywords": ["gruntplugin", "htmlrefs"]
+  "keywords": [
+    "gruntplugin",
+    "htmlrefs"
+  ]
 }
